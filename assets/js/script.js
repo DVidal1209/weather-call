@@ -11,7 +11,6 @@ function search(e){
     e.preventDefault();
     forecast.innerHTML="";
     curr.innerHTML="";
-    // console.log(e.target.className);
     if (e.target.classList.contains("oldSearch")){
         city.value = e.target.innerHTML;
         console.log(e.target.className);

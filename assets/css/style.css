@@ -1,11 +1,11 @@
+/* Jumbotron styling */
 .weather{
     background-color:royalblue;
     text-align: center;
     border-radius: 0;
 }
 
-
-
+/* Styling for divider between previous searches and search button */
 .divider{
     width: 100%;
     background-color: black;
@@ -14,10 +14,12 @@
     border-radius:2px;
 }
 
+/* Styling for City box input */
 #city{
     border-radius: 5px;
 }
 
+/* Search button styling */
 #search{
     margin-top:5px;
     background-color: lightskyblue;
@@ -26,17 +28,16 @@
     border-radius: 5px;
 }
 
+/* Previous search butotn styling */
 .oldSearch{
     background-color: lightgray;
     color: black;
     border:none;
     border-radius: 5px;
+    margin-top: 10px;
 }
 
-#forecast{
-    display: flex;
-}
-
+/* Stylign for future forecast */
 .smallCard{
     background-color: darkslategray;
     color: white;
