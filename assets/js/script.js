@@ -16,13 +16,13 @@ function search(e){
         console.log(e.target.className);
     }
     // Accu Weather API location Api call
-    fetch("https://dataservice.accuweather.com/locations/v1/cities/search?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&q=" +city.value)
+    fetch("https://dataservice.accuweather.com/locations/v1/cities/search?apikey=Igdknb5TJC9Zne9mSH20UI9Vzn5C0CzM&q=" +city.value)
         .then(function(res){
             return res.json()
         })
         .then(function(data){
             // Accuweather current weather conditions api call
-            fetch("https://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&language=en&details=true")
+            fetch("https://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=Igdknb5TJC9Zne9mSH20UI9Vzn5C0CzM&language=en&details=true")
                 .then(function(r){
                     return r.json()
                 })
@@ -69,7 +69,7 @@ function search(e){
                     bigCard.appendChild(uv);
                     curr.appendChild(bigCard);
                     // Accuweather future weather conditions api call
-                    fetch("https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&details=true")
+                    fetch("https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=Igdknb5TJC9Zne9mSH20UI9Vzn5C0CzM&details=true")
                         .then(function(response){
                             return response.json()
                         })
