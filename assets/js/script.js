@@ -3,25 +3,31 @@ var searchBtn=document.querySelector("#search");
 var city=document.querySelector("#city");
 var curr=document.querySelector("#now");
 var forecast=document.querySelector("#forecast");
+var previous=document.querySelector("#previous");
+var prev = $("#previous");
+var previousSearch = [];
 
 function search(e){
     e.preventDefault();
+    forecast.innerHTML="";
+    curr.innerHTML="";
+    // console.log(e.target.className);
+    if (e.target.classList.contains("oldSearch")){
+        city.value = e.target.innerHTML;
+        console.log(e.target.className);
+    }
     // Accu Weather API location Api call
-    fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&q=" +city.value)
+    fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&q=" +city.value)
         .then(function(res){
             return res.json()
         })
         .then(function(data){
-            console.log("Data: ")
-            console.log(data)
             // Accuweather current weather conditions api call
-            fetch("http://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&language=en&details=true")
+            fetch("http://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&language=en&details=true")
                 .then(function(r){
                     return r.json()
                 })
                 .then(function(d){
-                    console.log("Current:");
-                    console.log(d);
                     var bigCard = document.createElement("div");
                     bigCard.setAttribute("class", "card");
                     bigCard.classList.add("col-12");
@@ -64,13 +70,11 @@ function search(e){
                     bigCard.appendChild(uv);
                     curr.appendChild(bigCard);
                     // Accuweather future weather conditions api call
-                    fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&details=true")
+                    fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=zokjpOGasR9N4syNvCf0Hdx6WvTzPjq4&details=true")
                         .then(function(response){
                             return response.json()
                         })
                         .then(function(dat){
-                            console.log("New Data:");
-                            console.log(dat.DailyForecasts);
                             for(var i=0; i<dat.DailyForecasts.length;i++){
                                 var smallCard = document.createElement("div");
                                 smallCard.setAttribute("class", "card");
@@ -92,9 +96,43 @@ function search(e){
                                 smallCard.appendChild(wind);
                                 forecast.appendChild(smallCard);
                             }
+
+                            previousSearch.unshift(city.value);
+                            localStorage.setItem("previousSearch", JSON.stringify(previousSearch));
+
+                            if (previousSearch.length>5){
+                                previousSearch.pop();
+                                localStorage.setItem("previousSearch", JSON.stringify(previousSearch));
+                            }
+                            previous.innerHTML = "";
+                            for (var i=0;i<previousSearch.length;i++){
+                                var btn = document.createElement("button");
+                                btn.setAttribute("class", "col-12");
+                                btn.classList.add("oldSearch");
+                                btn.innerHTML=previousSearch[i];
+                                previous.appendChild(btn);
+                            }
                         })
                 })
         })
 }
 
+function init(){
+    if (localStorage.previousSearch === null || localStorage.previousSearch === undefined){
+        return;
+    } else{
+        previousSearch = JSON.parse(localStorage.getItem("previousSearch"));
+        for (var i=0;i<previousSearch.length;i++){
+            var btn = document.createElement("button");
+            btn.setAttribute("class", "col-12");
+            btn.classList.add("oldSearch");
+            btn.innerHTML=previousSearch[i];
+            previous.appendChild(btn);
+        }
+    }
+}
+
+init();  
+
 searchBtn.addEventListener("click", search)
+prev.on("click", ".oldSearch", search)
