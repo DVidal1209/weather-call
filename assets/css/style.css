@@ -32,3 +32,15 @@
     border:none;
     border-radius: 5px;
 }
+
+#forecast{
+    display: flex;
+}
+
+.smallCard{
+    background-color: darkslategray;
+    color: white;
+    width: 19%;
+    margin-top: 15px;
+    margin-right: auto;
+}

@@ -4,7 +4,7 @@ var city=document.querySelector("#city");
 var curr=document.querySelector("#now");
 var forecast=document.querySelector("#forecast");
 
-searchBtn.addEventListener("click", function(e){
+function search(e){
     e.preventDefault();
     // Accu Weather API location Api call
     fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&q=" +city.value)
@@ -28,8 +28,8 @@ searchBtn.addEventListener("click", function(e){
                     var cardBody = document.createElement("div");
                     cardBody.classList.add("card-body");
                     var h5 = document.createElement("h5");
-                    var now = moment().format("DD/MM/YYYY")
-                    h5.innerHTML=data[0].Country.EnglishName + " (" + now + ")";
+                    var now = moment().format("YYYY/MM/DD")
+                    h5.innerHTML=data[0].EnglishName + " (" + now + ")";
                     var img = document.createElement("img");
                     img.setAttribute("src", "./assets/images/"+d[0].WeatherIcon+".png");
                     h5.appendChild(img);
@@ -46,7 +46,7 @@ searchBtn.addEventListener("click", function(e){
 
                     //Color Coding of UV Index
                     if (d[0].UVIndex<=2){
-                        uvNum.style.backgroundColor="green"
+                        uvNum.style.backgroundColor="lightgreen"
                     } else if(d[0].UVIndex>=3 && d[0].UVIndex<=5){
                         uvNum.style.backgroundColor="yellow"
                     } if(d[0].UVIndex>=6 && d[0].UVIndex<=7){
@@ -70,11 +70,31 @@ searchBtn.addEventListener("click", function(e){
                         })
                         .then(function(dat){
                             console.log("New Data:");
-                            console.log(dat);
-                            // for(var i=0; i<dat.length;i++){
-
-                            // }
+                            console.log(dat.DailyForecasts);
+                            for(var i=0; i<dat.DailyForecasts.length;i++){
+                                var smallCard = document.createElement("div");
+                                smallCard.setAttribute("class", "card");
+                                smallCard.classList.add("smallCard");
+                                var cardBody = document.createElement("div");
+                                cardBody.classList.add("card-body");
+                                var h5 = document.createElement("h5");
+                                var date = dat.DailyForecasts[i].Date.substring(0,10)
+                                h5.innerHTML=date;
+                                var img = document.createElement("img");
+                                img.setAttribute("src", "./assets/images/"+dat.DailyForecasts[i].Day.Icon+".png");
+                                h5.appendChild(img);
+                                var temp = document.createElement("p");
+                                temp.innerHTML= "Temperature: " + dat.DailyForecasts[i].Temperature.Minimum.Value + dat.DailyForecasts[i].Temperature.Minimum.Unit + " - "+ dat.DailyForecasts[i].Temperature.Maximum.Value + dat.DailyForecasts[i].Temperature.Maximum.Unit;
+                                var wind = document.createElement("p");
+                                wind.innerHTML="Wind Speed: " + dat.DailyForecasts[i].Day.Wind.Speed.Value + dat.DailyForecasts[i].Day.Wind.Speed.Unit;
+                                smallCard.appendChild(h5);
+                                smallCard.appendChild(temp);
+                                smallCard.appendChild(wind);
+                                forecast.appendChild(smallCard);
+                            }
                         })
                 })
         })
-})
+}
+
+searchBtn.addEventListener("click", search)
