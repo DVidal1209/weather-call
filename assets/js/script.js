@@ -7,7 +7,7 @@ var forecast=document.querySelector("#forecast");
 searchBtn.addEventListener("click", function(e){
     e.preventDefault();
     // Accu Weather API location Api call
-    fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&q=" +city.value)
+    fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&q=" +city.value)
         .then(function(res){
             return res.json()
         })
@@ -15,7 +15,7 @@ searchBtn.addEventListener("click", function(e){
             console.log("Data: ")
             console.log(data)
             // Accuweather current weather conditions api call
-            fetch("http://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&language=en&details=true")
+            fetch("http://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&language=en&details=true")
                 .then(function(r){
                     return r.json()
                 })
@@ -64,13 +64,16 @@ searchBtn.addEventListener("click", function(e){
                     bigCard.appendChild(uv);
                     curr.appendChild(bigCard);
                     // Accuweather future weather conditions api call
-                    fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&details=true")
+                    fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=R3eYGFHhFF0UxvY2rFI2KRojjK4emV26&details=true")
                         .then(function(response){
                             return response.json()
                         })
                         .then(function(dat){
                             console.log("New Data:");
                             console.log(dat);
+                            // for(var i=0; i<dat.length;i++){
+
+                            // }
                         })
                 })
         })
