@@ -1,9 +1,12 @@
+//Declaration of global variables required ie main sections needed from HTML file
 var searchBtn=document.querySelector("#search");
 var city=document.querySelector("#city");
 var curr=document.querySelector("#now");
+var forecast=document.querySelector("#forecast");
 
 searchBtn.addEventListener("click", function(e){
     e.preventDefault();
+    // Accu Weather API location Api call
     fetch("http://dataservice.accuweather.com/locations/v1/cities/search?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&q=" +city.value)
         .then(function(res){
             return res.json()
@@ -11,6 +14,7 @@ searchBtn.addEventListener("click", function(e){
         .then(function(data){
             console.log("Data: ")
             console.log(data)
+            // Accuweather current weather conditions api call
             fetch("http://dataservice.accuweather.com/currentconditions/v1/"+ data[0].Key + "?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&language=en&details=true")
                 .then(function(r){
                     return r.json()
@@ -21,7 +25,6 @@ searchBtn.addEventListener("click", function(e){
                     var bigCard = document.createElement("div");
                     bigCard.setAttribute("class", "card");
                     bigCard.classList.add("col-12");
-                    bigCard.setAttribute("id", "current");
                     var cardBody = document.createElement("div");
                     cardBody.classList.add("card-body");
                     var h5 = document.createElement("h5");
@@ -60,6 +63,7 @@ searchBtn.addEventListener("click", function(e){
                     bigCard.appendChild(humidity);
                     bigCard.appendChild(uv);
                     curr.appendChild(bigCard);
+                    // Accuweather future weather conditions api call
                     fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + data[0].Key+ "?apikey=FCNwacorZvGxY5Km0lgeueh3CHUE8QzH&details=true")
                         .then(function(response){
                             return response.json()
